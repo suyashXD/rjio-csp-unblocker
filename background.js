@@ -1,8 +1,12 @@
 chrome.webRequest.onHeadersReceived.addListner(
-    (details) => {
+    async (details) => {
         const url = new url(details.url);
 
-        if (url.hostname.startsWith("") || url.hostname.match(/bmc-/)) {
+        const data = await chrome.storage.local.get("enabledDomains");
+        const enabledDomains = data.enabledDomains || [];
+
+        // if (url.hostname.startsWith("") || url.hostname.match(/bmc-/)) 
+        if (enabledDomains.includes(url.hostname)) {
             const headers = details.responseHeaders.filter(
                 (header) => header.name.toLowerCase() !== "content-security-policy"  
             );
