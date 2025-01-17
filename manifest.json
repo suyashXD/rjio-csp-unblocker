@@ -3,13 +3,26 @@
     "name": "RJIO CSP Blocker",
     "version": "1.0",
     "description": "Dynamically resolve CSP issues for BMC WebUI across multiple IPs.",
-    "permissions": ["webRequest", "webRequestBlocking", "activeTab"],
-    "host_permissions": ["http://*/*", "https://*/*"],
+    "permissions": ["declarativeNetRequest", "declarativeNetRequestWithHostAccess", "storage", "tabs"],
+    "host_permissions": ["<all_urls>"],
     "background": {
         "service_worker": "background.js"
     },
     "action": {
         "default_popup": "popup.html",
         "default_icon": "icons/icon128.jpg"
-    }
+    },
+    "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "csp_bypass_rules",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "icons": {
+    "128": "icons/icon128.jpg"
+  }
+
 }
