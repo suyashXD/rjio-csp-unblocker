@@ -3,26 +3,44 @@
     "name": "RJIO CSP Blocker",
     "version": "1.0",
     "description": "Dynamically resolve CSP issues for BMC WebUI across multiple IPs.",
-    "permissions": ["declarativeNetRequest", "declarativeNetRequestWithHostAccess", "storage", "tabs"],
+    "default_locale": "en",
+    "permissions": ["declarativeNetRequest", "declarativeNetRequestWithHostAccess", "storage", "tabs", "contextMenus"],
     "host_permissions": ["<all_urls>"],
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "worker.js"
     },
     "action": {
-        "default_popup": "popup.html",
-        "default_icon": "icons/icon128.jpg"
+      "default_popup": "popup.html",
+      "default_icon": {
+        "128": "data/icons/icon128.png"
+      }
     },
     "declarative_net_request": {
-    "rule_resources": [
-      {
-        "id": "csp_bypass_rules",
-        "enabled": true,
-        "path": "rules.json"
-      }
-    ]
-  },
+      "rule_resources": [
+        {
+          "id": "csp-1",
+          "enabled": false,
+          "path": "rulesets/csp-1.json"
+        },
+        {
+          "id": "csp-2",
+          "enabled": false,
+          "path": "rulesets/csp-2.json"
+        },
+        {
+          "id": "csp-3",
+          "enabled": false,
+          "path": "rulesets/csp-3.json"
+        },
+        {
+          "id": "csp-4",
+          "enabled": false,
+          "path": "rulesets/csp-4.json"
+        }
+      ]
+    },
   "icons": {
-    "128": "icons/icon128.jpg"
+    "128": "data/icons/icon128.png"
   }
 
 }

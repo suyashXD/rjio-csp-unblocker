@@ -1,39 +1,37 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  const data = await chrome.storage.local.get("enabledDomains");
-  const enabledDomains = data.enabledDomains || [];
+document.addEventListener('DOMContentLoaded', () => {
+  const enableExtensionCheckbox = document.getElementById('enable-extension');
+  const rulesCheckboxes = {
+    'csp-1': document.getElementById('csp-1'),
+    'csp-2': document.getElementById('csp-2'),
+    'csp-3': document.getElementById('csp-3'),
+    'csp-4': document.getElementById('csp-4')
+  };
+  const testPageButton = document.getElementById('open-test-page');
 
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  const url = new URL(tab.url);
-  const hostname = url.hostname;
+  chrome.storage.local.get({
+    enabled: false,
+    'csp-1': true,
+    'csp-2': true,
+    'csp-3': true,
+    'csp-4': true
+  }, prefs => {
+    enableExtensionCheckbox.checked = prefs.enabled;
+    Object.keys(rulesCheckboxes).forEach(rule => {
+      rulesCheckboxes[rule].checked = prefs[rule];
+    });
+  });
 
-  const toggleButton = document.getElementById("toggle");
-  const statusText = document.getElementById("status");
+  enableExtensionCheckbox.addEventListener('change', e => {
+    chrome.storage.local.set({ enabled: e.target.checked });
+  });
 
-  statusText.textContent = enabledDomains.includes(hostname)
-    ? "CSP bypass is ON for this site."
-    : "CSP bypass is OFF for this site.";
-  toggleButton.textContent = enabledDomains.includes(hostname)
-    ? "Disable CSP Bypass"
-    : "Enable CSP Bypass";
+  Object.entries(rulesCheckboxes).forEach(([rule, checkbox]) => {
+    checkbox.addEventListener('change', e => {
+      chrome.storage.local.set({ [rule]: e.target.checked });
+    });
+  });
 
-  toggleButton.addEventListener("click", async () => {
-    let updatedDomains;
-
-    if (enabledDomains.includes(hostname)) {
-      updatedDomains = enabledDomains.filter((domain) => domain !== hostname);
-    } else {
-      updatedDomains = [...enabledDomains, hostname];
-    }
-
-    await chrome.storage.local.set({ enabledDomains: updatedDomains });
-
-    statusText.textContent = updatedDomains.includes(hostname)
-      ? "CSP bypass is ON for this site."
-      : "CSP bypass is OFF for this site.";
-    toggleButton.textContent = updatedDomains.includes(hostname)
-      ? "Disable CSP Bypass"
-      : "Enable CSP Bypass";
-
-    console.log(`Updated enabled domains: ${updatedDomains}`);
+  testPageButton.addEventListener('click', () => {
+    chrome.tabs.create({ url: 'https://webbrowsertools.com/test-csp/' });
   });
 });

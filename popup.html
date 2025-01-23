@@ -1,23 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>RJIO CSP Bypass</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 10px;
-    }
-    #toggle {
-      padding: 8px 16px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RJIO CSP Blocker</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h3>CSP Bypass</h3>
-  <p id="status">Loading...</p>
-  <button id="toggle">Loading...</button>
+  <div class="popup">
+    <h1>CSP Unblock</h1>
+    <label>
+      <input type="checkbox" id="enable-extension" />
+      Enable CSP Unblock
+    </label>
+    <div class="rules">
+      <label>
+        <input type="checkbox" id="csp-1" />
+        Remove "Content-Security-Policy" header
+      </label>
+      <label>
+        <input type="checkbox" id="csp-2" />
+        Remove "Content-Security-Policy-Report-Only" header
+      </label>
+      <label>
+        <input type="checkbox" id="csp-3" />
+        Remove "X-Webkit-CSP" header
+      </label>
+      <label>
+        <input type="checkbox" id="csp-4" />
+        Remove "X-Content-Security-Policy" header
+      </label>
+    </div>
+    <button id="open-test-page">Open Test Page</button>
+  </div>
   <script src="popup.js"></script>
 </body>
 </html>
