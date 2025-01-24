@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "RJIO CSP Blocker",
+    "name": "RJIO CSP Unblocker",
     "version": "1.0",
     "description": "Dynamically resolve CSP issues for BMC WebUI across multiple IPs.",
     "default_locale": "en",
